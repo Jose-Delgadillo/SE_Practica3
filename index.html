@@ -74,7 +74,7 @@
     </div>
 
     <script>
-        // Arbol de nodos gigante (75 nodos) con las rutas de las imágenes
+        // Árbol de nodos
         let baseConocimiento = {
             question: "¿Es un operador Atacante?",
             yes: {
@@ -250,7 +250,6 @@
             hacerPregunta();
         }
 
-        // AQUÍ ESTÁ LA FUNCIÓN ACTUALIZADA QUE SÍ MUESTRA LAS IMÁGENES
         function hacerPregunta() {
             if (nodoActual.question) {
                 document.getElementById('question-text').innerText = nodoActual.question;
@@ -275,15 +274,10 @@
             } else {
                 if (reply === 'yes') {
                     document.getElementById('question-text').innerText = "Identificación exitosa.";
-                    document.getElementById('buttons-area').style.display = 'none'; 
+                    // ESTA ES LA LÍNEA QUE OCULTA LOS BOTONES
+                    document.getElementById('buttons-area').style.display = 'none';
                     reiniciarInterfaz();
                 } else {
-                    document.getElementById('question-text').innerText = "Identificación fallida. Iniciando calibración...";
-                    document.getElementById('buttons-area').style.display = 'none';
-                    document.getElementById('learn-area').style.display = 'block';
-                }
-            }
-        }
                     document.getElementById('question-text').innerText = "Identificación fallida. Iniciando calibración...";
                     document.getElementById('buttons-area').style.display = 'none';
                     document.getElementById('learn-area').style.display = 'block';
@@ -297,11 +291,11 @@
 
             if(nuevaRespuesta && nuevaPregunta) {
                 const respuestaAntigua = nodoActual.answer;
-                const imagenAntigua = nodoActual.image; // Guardamos la imagen por si acaso
+                const imagenAntigua = nodoActual.image; 
                 
                 nodoActual.question = nuevaPregunta;
-                nodoActual.yes = { answer: nuevaRespuesta }; // El nuevo no tendrá imagen local
-                nodoActual.no = { answer: respuestaAntigua, image: imagenAntigua }; // Restauramos la imagen del viejo
+                nodoActual.yes = { answer: nuevaRespuesta }; 
+                nodoActual.no = { answer: respuestaAntigua, image: imagenAntigua }; 
                 delete nodoActual.answer;
                 delete nodoActual.image;
 
