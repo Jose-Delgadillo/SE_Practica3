@@ -74,166 +74,165 @@
     </div>
 
     <script>
-        // Arbol de nodos inicial (Encadenamiento hacia adelante)
-let baseConocimiento = {
-    question: "¿Es un operador Atacante?",
-    yes: {
-        question: "¿Lleva un escudo antidisturbios de forma principal?",
-        yes: {
-            question: "¿Su escudo puede emitir un flash cegador?",
-            yes: { answer: "Blitz", image: "img/blitz.png" },
-            no: { answer: "Montagne", image: "img/montagne.png" }
-        },
-        no: {
-            question: "¿Es un 'Hard Breacher' (destruye paredes reforzadas)?",
+        // Arbol de nodos gigante (75 nodos) con las rutas de las imágenes
+        let baseConocimiento = {
+            question: "¿Es un operador Atacante?",
             yes: {
-                question: "¿Usa un soplete táctico?",
-                yes: { answer: "Maverick", image: "img/maverick.png" },
+                question: "¿Lleva un escudo antidisturbios de forma principal?",
+                yes: {
+                    question: "¿Su escudo puede emitir un flash cegador?",
+                    yes: { answer: "Blitz", image: "img/blitz.png" },
+                    no: { answer: "Montagne", image: "img/montagne.png" }
+                },
                 no: {
-                    question: "¿Usa cargas exotérmicas clásicas?",
-                    yes: { answer: "Thermite", image: "img/thermite.png" },
+                    question: "¿Es un 'Hard Breacher' (destruye paredes reforzadas)?",
+                    yes: {
+                        question: "¿Usa un soplete táctico?",
+                        yes: { answer: "Maverick", image: "img/maverick.png" },
+                        no: {
+                            question: "¿Usa cargas exotérmicas clásicas?",
+                            yes: { answer: "Thermite", image: "img/thermite.png" },
+                            no: {
+                                question: "¿Dispara fidget spinners explosivos (X-KAIROS)?",
+                                yes: { answer: "Hibana", image: "img/hibana.png" },
+                                no: { answer: "Ace", image: "img/ace.png" }
+                            }
+                        }
+                    },
                     no: {
-                        question: "¿Dispara fidget spinners explosivos (X-KAIROS)?",
-                        yes: { answer: "Hibana", image: "img/hibana.png" },
-                        no: { answer: "Ace", image: "img/ace.png" }
+                        question: "¿Su habilidad principal involucra rastrear al enemigo o hackear su información?",
+                        yes: {
+                            question: "¿Rastrea huellas en el suelo con un visor especial?",
+                            yes: { answer: "Jackal", image: "img/jackal.png" },
+                            no: {
+                                question: "¿Hackea los teléfonos de los defensores para hacerlos sonar?",
+                                yes: { answer: "Dokkaebi", image: "img/dokkaebi.png" },
+                                no: { answer: "Lion", image: "img/lion.png" }
+                            }
+                        },
+                        no: {
+                            question: "¿Es un francotirador con mira telescópica especial?",
+                            yes: {
+                                question: "¿Tiene mira térmica para ver a través del humo?",
+                                yes: { answer: "Glaz", image: "img/glaz.png" },
+                                no: { answer: "Kali", image: "img/kali.png" }
+                            },
+                            no: {
+                                question: "¿Se especializa en destruir dispositivos electrónicos (Anti-gadget)?",
+                                yes: {
+                                    question: "¿Lanza granadas EMP (Pulsos Electromagnéticos)?",
+                                    yes: { answer: "Thatcher", image: "img/thatcher.png" },
+                                    no: {
+                                        question: "¿Usa un dron especial que dispara tásers?",
+                                        yes: { answer: "Twitch", image: "img/twitch.png" },
+                                        no: { answer: "IQ", image: "img/iq.png" }
+                                    }
+                                },
+                                no: {
+                                    question: "¿Se especializa en destruir paredes NO reforzadas (Soft Breach)?",
+                                    yes: {
+                                        question: "¿Usa un martillo táctico pesado?",
+                                        yes: { answer: "Sledge", image: "img/sledge.png" },
+                                        no: {
+                                            question: "¿Usa un lanzagranadas acoplado bajo el cañón (Skeleton Key)?",
+                                            yes: { answer: "Buck", image: "img/buck.png" },
+                                            no: {
+                                                question: "¿Dispara proyectiles explosivos muy rápidos (munición de voladura)?",
+                                                yes: { answer: "Ash", image: "img/ash.png" },
+                                                no: { answer: "Zofia", image: "img/zofia.png" }
+                                            }
+                                        }
+                                    },
+                                    no: { answer: "Blackbeard", image: "img/blackbeard.png" }
+                                }
+                            }
+                        }
                     }
                 }
             },
             no: {
-                question: "¿Su habilidad principal involucra rastrear al enemigo o hackear su información?",
+                question: "¿Su habilidad principal es colocar trampas que dañan o atrapan al enemigo?",
                 yes: {
-                    question: "¿Rastrea huellas en el suelo con un visor especial?",
-                    yes: { answer: "Jackal", image: "img/jackal.png" },
+                    question: "¿Sus trampas son cepos mecánicos gigantes (Welcome Mats)?",
+                    yes: { answer: "Frost", image: "img/frost.png" },
                     no: {
-                        question: "¿Hackea los teléfonos de los defensores para hacerlos sonar?",
-                        yes: { answer: "Dokkaebi", image: "img/dokkaebi.png" },
-                        no: { answer: "Lion", image: "img/lion.png" }
+                        question: "¿Coloca explosivos láser en los marcos de puertas y ventanas?",
+                        yes: { answer: "Kapkan", image: "img/kapkan.png" },
+                        no: {
+                            question: "¿Lanza minas invisibles que envenenan e impiden correr (Gu)?",
+                            yes: { answer: "Lesion", image: "img/lesion.png" },
+                            no: { answer: "Ela", image: "img/ela.png" }
+                        }
                     }
                 },
                 no: {
-                    question: "¿Es un francotirador con mira telescópica especial?",
+                    question: "¿Su función principal es dar información mediante cámaras o sensores especiales?",
                     yes: {
-                        question: "¿Tiene mira térmica para ver a través del humo?",
-                        yes: { answer: "Glaz", image: "img/glaz.png" },
-                        no: { answer: "Kali", image: "img/kali.png" }
+                        question: "¿Detecta latidos cardíacos a través de las paredes?",
+                        yes: { answer: "Pulse", image: "img/pulse.png" },
+                        no: {
+                            question: "¿Lanza cámaras adhesivas de 360 grados (Black Eyes)?",
+                            yes: { answer: "Valkyrie", image: "img/valkyrie.png" },
+                            no: {
+                                question: "¿Usa drones invisibles que disparan ráfagas sónicas?",
+                                yes: { answer: "Echo", image: "img/echo.png" },
+                                no: { answer: "Maestro", image: "img/maestro.png" }
+                            }
+                        }
                     },
                     no: {
-                        question: "¿Se especializa en destruir dispositivos electrónicos (Anti-gadget)?",
+                        question: "¿Evita que los atacantes destruyan paredes reforzadas (Anti-Hard Breach)?",
                         yes: {
-                            question: "¿Lanza granadas EMP (Pulsos Electromagnéticos)?",
-                            yes: { answer: "Thatcher", image: "img/thatcher.png" },
+                            question: "¿Coloca baterías electrificadas en el suelo?",
+                            yes: { answer: "Bandit", image: "img/bandit.png" },
                             no: {
-                                question: "¿Usa un dron especial que dispara tásers?",
-                                yes: { answer: "Twitch", image: "img/twitch.png" },
-                                no: { answer: "IQ", image: "img/iq.png" }
+                                question: "¿Usa inhibidores de señal en el suelo para bloquear electrónicos?",
+                                yes: { answer: "Mute", image: "img/mute.png" },
+                                no: { answer: "Kaid", image: "img/kaid.png" }
                             }
                         },
                         no: {
-                            question: "¿Se especializa en destruir paredes NO reforzadas (Soft Breach)?",
+                            question: "¿Su habilidad permite curar o dar salud extra a los compañeros?",
                             yes: {
-                                question: "¿Usa un martillo táctico pesado?",
-                                yes: { answer: "Sledge", image: "img/sledge.png" },
-                                no: {
-                                    question: "¿Usa un lanzagranadas acoplado bajo el cañón (Skeleton Key)?",
-                                    yes: { answer: "Buck", image: "img/buck.png" },
+                                question: "¿Dispara inyecciones curativas a distancia con una pistola especial?",
+                                yes: { answer: "Doc", image: "img/doc.png" },
+                                no: { answer: "Rook", image: "img/rook.png" }
+                            },
+                            no: {
+                                question: "¿Su habilidad se basa en denegar áreas temporalmente con elementos letales?",
+                                yes: {
+                                    question: "¿Lanza granadas de gas tóxico remoto?",
+                                    yes: { answer: "Smoke", image: "img/smoke.png" },
                                     no: {
-                                        question: "¿Dispara proyectiles explosivos muy rápidos (munición de voladura)?",
-                                        yes: { answer: "Ash", image: "img/ash.png" },
-                                        no: { answer: "Zofia", image: "img/zofia.png" }
+                                        question: "¿Usa un lanzagranadas incendiario Shumikha (antes torreta)?",
+                                        yes: { answer: "Tachanka", image: "img/tachanka.png" },
+                                        no: { answer: "Goyo", image: "img/goyo.png" }
+                                    }
+                                },
+                                no: {
+                                    question: "¿Es un 'Roamer' extremo enfocado en sigilo e interrogatorios?",
+                                    yes: {
+                                        question: "¿Puede interrogar enemigos caídos para revelar posiciones?",
+                                        yes: { answer: "Caveira", image: "img/caveira.png" },
+                                        no: { answer: "Vigil", image: "img/vigil.png" }
+                                    },
+                                    no: {
+                                        question: "¿Intercepta granadas enemigas lanzadas por el aire?",
+                                        yes: {
+                                            question: "¿Su sistema destruye los proyectiles (Sistema Magpie)?",
+                                            yes: { answer: "Jäger", image: "img/jager.png" },
+                                            no: { answer: "Wamai", image: "img/wamai.png" }
+                                        },
+                                        no: { answer: "Castle", image: "img/castle.png" }
                                     }
                                 }
-                            },
-                            no: { answer: "Blackbeard", image: "img/blackbeard.png" }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    no: {
-        question: "¿Su habilidad principal es colocar trampas que dañan o atrapan al enemigo?",
-        yes: {
-            question: "¿Sus trampas son cepos mecánicos gigantes (Welcome Mats)?",
-            yes: { answer: "Frost", image: "img/frost.png" },
-            no: {
-                question: "¿Coloca explosivos láser en los marcos de puertas y ventanas?",
-                yes: { answer: "Kapkan", image: "img/kapkan.png" },
-                no: {
-                    question: "¿Lanza minas invisibles que envenenan e impiden correr (Gu)?",
-                    yes: { answer: "Lesion", image: "img/lesion.png" },
-                    no: { answer: "Ela", image: "img/ela.png" }
-                }
-            }
-        },
-        no: {
-            question: "¿Su función principal es dar información mediante cámaras o sensores especiales?",
-            yes: {
-                question: "¿Detecta latidos cardíacos a través de las paredes?",
-                yes: { answer: "Pulse", image: "img/pulse.png" },
-                no: {
-                    question: "¿Lanza cámaras adhesivas de 360 grados (Black Eyes)?",
-                    yes: { answer: "Valkyrie", image: "img/valkyrie.png" },
-                    no: {
-                        question: "¿Usa drones invisibles que disparan ráfagas sónicas?",
-                        yes: { answer: "Echo", image: "img/echo.png" },
-                        no: { answer: "Maestro", image: "img/maestro.png" }
-                    }
-                }
-            },
-            no: {
-                question: "¿Evita que los atacantes destruyan paredes reforzadas (Anti-Hard Breach)?",
-                yes: {
-                    question: "¿Coloca baterías electrificadas en el suelo?",
-                    yes: { answer: "Bandit", image: "img/bandit.png" },
-                    no: {
-                        question: "¿Usa inhibidores de señal en el suelo para bloquear electrónicos?",
-                        yes: { answer: "Mute", image: "img/mute.png" },
-                        no: { answer: "Kaid", image: "img/kaid.png" }
-                    }
-                },
-                no: {
-                    question: "¿Su habilidad permite curar o dar salud extra a los compañeros?",
-                    yes: {
-                        question: "¿Dispara inyecciones curativas a distancia con una pistola especial?",
-                        yes: { answer: "Doc", image: "img/doc.png" },
-                        no: { answer: "Rook", image: "img/rook.png" }
-                    },
-                    no: {
-                        question: "¿Su habilidad se basa en denegar áreas temporalmente con elementos letales?",
-                        yes: {
-                            question: "¿Lanza granadas de gas tóxico remoto?",
-                            yes: { answer: "Smoke", image: "img/smoke.png" },
-                            no: {
-                                question: "¿Usa un lanzagranadas incendiario Shumikha (antes torreta)?",
-                                yes: { answer: "Tachanka", image: "img/tachanka.png" },
-                                no: { answer: "Goyo", image: "img/goyo.png" }
-                            }
-                        },
-                        no: {
-                            question: "¿Es un 'Roamer' extremo enfocado en sigilo e interrogatorios?",
-                            yes: {
-                                question: "¿Puede interrogar enemigos caídos para revelar posiciones?",
-                                yes: { answer: "Caveira", image: "img/caveira.png" },
-                                no: { answer: "Vigil", image: "img/vigil.png" }
-                            },
-                            no: {
-                                question: "¿Intercepta granadas enemigas lanzadas por el aire?",
-                                yes: {
-                                    question: "¿Su sistema destruye los proyectiles (Sistema Magpie)?",
-                                    yes: { answer: "Jäger", image: "img/jager.png" },
-                                    no: { answer: "Wamai", image: "img/wamai.png" }
-                                },
-                                no: { answer: "Castle", image: "img/castle.png" }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-};
+        };
 
-        // El sistema carga la memoria si ya aprendió antes
         if(localStorage.getItem('R6ExpertSystem')) {
             baseConocimiento = JSON.parse(localStorage.getItem('R6ExpertSystem'));
         }
@@ -251,25 +250,21 @@ let baseConocimiento = {
             hacerPregunta();
         }
 
+        // AQUÍ ESTÁ LA FUNCIÓN ACTUALIZADA QUE SÍ MUESTRA LAS IMÁGENES
         function hacerPregunta() {
-    if (nodoActual.question) {
-        // Es una pregunta, mostramos solo el texto
-        document.getElementById('question-text').innerText = nodoActual.question;
-    } else {
-        // Es un resultado final, armamos el HTML con la imagen
-        let htmlResultado = `El operador es: <br><strong style="font-size: 1.5em; color: #ffbf00;">${nodoActual.answer}</strong><br><br>`;
-        
-        // Si el nodo tiene una imagen guardada, la insertamos
-        if (nodoActual.image) {
-            htmlResultado += `<img src="${nodoActual.image}" style="max-width: 200px; border-radius: 10px; border: 2px solid #005A9C; box-shadow: 0 0 10px rgba(0,90,156,0.5); margin-bottom: 15px;"><br>`;
+            if (nodoActual.question) {
+                document.getElementById('question-text').innerText = nodoActual.question;
+            } else {
+                let htmlResultado = `El operador es: <br><strong style="font-size: 1.5em; color: #ffbf00;">${nodoActual.answer}</strong><br><br>`;
+                
+                if (nodoActual.image) {
+                    htmlResultado += `<img src="${nodoActual.image}" style="max-width: 200px; border-radius: 10px; border: 2px solid #005A9C; box-shadow: 0 0 10px rgba(0,90,156,0.5); margin-bottom: 15px;"><br>`;
+                }
+                
+                htmlResultado += `¿Es correcto?`;
+                document.getElementById('question-text').innerHTML = htmlResultado;
+            }
         }
-        
-        htmlResultado += `¿Es correcto?`;
-        
-        // Inyectamos todo al contenedor
-        document.getElementById('question-text').innerHTML = htmlResultado;
-    }
-}
 
         function answer(reply) {
             if (nodoActual.question) {
@@ -295,14 +290,14 @@ let baseConocimiento = {
 
             if(nuevaRespuesta && nuevaPregunta) {
                 const respuestaAntigua = nodoActual.answer;
+                const imagenAntigua = nodoActual.image; // Guardamos la imagen por si acaso
                 
-                // Creación del nuevo nodo
                 nodoActual.question = nuevaPregunta;
-                nodoActual.yes = { answer: nuevaRespuesta };
-                nodoActual.no = { answer: respuestaAntigua };
+                nodoActual.yes = { answer: nuevaRespuesta }; // El nuevo no tendrá imagen local
+                nodoActual.no = { answer: respuestaAntigua, image: imagenAntigua }; // Restauramos la imagen del viejo
                 delete nodoActual.answer;
+                delete nodoActual.image;
 
-                // Guardar en LocalStorage
                 localStorage.setItem('R6ExpertSystem', JSON.stringify(baseConocimiento));
 
                 document.getElementById('question-text').innerText = "Base de datos actualizada correctamente.";
@@ -323,7 +318,7 @@ let baseConocimiento = {
         }
 
         function clearMemory() {
-            if(confirm("¿Seguro que quieres borrar todo lo que el sistema ha aprendido?")) {
+            if(confirm("¿Seguro que quieres borrar todo lo que el sistema ha aprendido y cargar los valores por defecto?")) {
                 localStorage.removeItem('R6ExpertSystem');
                 location.reload();
             }
