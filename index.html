@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Experto R6 Siege</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            margin-top: 50px; 
+            background-color: #1a1a1a; 
+            color: #f0f0f0; 
+        }
+        #game-container { 
+            background: #2d2d2d; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.8); 
+            display: inline-block; 
+            max-width: 600px; 
+            width: 90%; 
+            border-top: 5px solid #005A9C;
+        }
+        button { 
+            margin: 10px; 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            font-weight: bold;
+            cursor: pointer; 
+            border: none; 
+            border-radius: 4px; 
+            background-color: #005A9C; 
+            color: white; 
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+        button:hover { background-color: #0078d4; }
+        input { 
+            padding: 12px; 
+            width: 85%; 
+            margin: 10px 0; 
+            border: 1px solid #555; 
+            border-radius: 4px; 
+            background-color: #1a1a1a;
+            color: white;
+        }
+        h1 { color: #ffffff; letter-spacing: 2px;}
+        .accent { color: #ffbf00; }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>R6 SIEGE <span class="accent">EXPERT SYSTEM</span></h1>
+        <div id="question-area">
+            <p id="question-text" style="font-size: 1.2em;">Piensa en un operador de Rainbow Six Siege...</p>
+            <button id="start-btn" onclick="startGame()">Iniciar Escaneo</button>
+            <br><br>
+            <button id="reset-btn" onclick="clearMemory()" style="background-color: #8b0000; font-size: 12px; padding: 8px 16px;">Reiniciar Base de Datos</button>
+        </div>
+        
+        <div id="buttons-area" style="display: none;">
+            <button onclick="answer('yes')">Sí</button>
+            <button onclick="answer('no')">No</button>
+        </div>
+        
+        <div id="learn-area" style="display: none;">
+            <p class="accent">El operador no está en la base de datos. Protocolo de aprendizaje activado.</p>
+            <p>¿Qué operador era?</p>
+            <input type="text" id="new-answer" placeholder="Ej. Caveira"><br>
+            <p>Escribe una pregunta donde la respuesta sea "Sí" para tu operador, y "No" para el que yo dije:</p>
+            <input type="text" id="new-question" placeholder="Ej. ¿Su habilidad especial es interrogar enemigos?"><br>
+            <button onclick="learn()" style="background-color: #28a745;">Añadir al Sistema</button>
+        </div>
+    </div>
+
+    <script>
+        // Arbol de nodos inicial (Encadenamiento hacia adelante)
+        let baseConocimiento = {
+            question: "¿Es un operador Atacante?",
+            yes: { 
+                question: "¿Lleva un escudo antidisturbios?",
+                yes: {
+                    question: "¿Su escudo puede emitir un flash cegador?",
+                    yes: { answer: "Blitz" },
+                    no: { answer: "Montagne" }
+                },
+                no: {
+                    question: "¿Utiliza un soplete táctico para abrir brechas?",
+                    yes: { answer: "Maverick" },
+                    no: { answer: "Ash" }
+                }
+            },
+            no: { 
+                question: "¿Coloca trampas en el suelo?",
+                yes: {
+                    question: "¿Sus trampas son mecánicas (cepofos para osos)?",
+                    yes: { answer: "Frost" },
+                    no: { answer: "Kapkan" }
+                },
+                no: {
+                    question: "¿Utiliza granadas de gas tóxico?",
+                    yes: { answer: "Smoke" },
+                    no: { answer: "Tachanka" }
+                }
+            }
+        };
+
+        // El sistema carga la memoria si ya aprendió antes
+        if(localStorage.getItem('R6ExpertSystem')) {
+            baseConocimiento = JSON.parse(localStorage.getItem('R6ExpertSystem'));
+        }
+
+        let nodoActual = null;
+        let nodoPadre = null;
+        let ultimaRespuesta = null;
+
+        function startGame() {
+            nodoActual = baseConocimiento;
+            nodoPadre = null;
+            document.getElementById('start-btn').style.display = 'none';
+            document.getElementById('reset-btn').style.display = 'none';
+            document.getElementById('buttons-area').style.display = 'block';
+            hacerPregunta();
+        }
+
+        function hacerPregunta() {
+            if (nodoActual.question) {
+                document.getElementById('question-text').innerText = nodoActual.question;
+            } else {
+                document.getElementById('question-text').innerHTML = `El operador es: <br><strong style="font-size: 1.5em; color: #ffbf00;">${nodoActual.answer}</strong><br><br>¿Es correcto?`;
+            }
+        }
+
+        function answer(reply) {
+            if (nodoActual.question) {
+                nodoPadre = nodoActual;
+                ultimaRespuesta = reply;
+                nodoActual = nodoActual[reply];
+                hacerPregunta();
+            } else {
+                if (reply === 'yes') {
+                    document.getElementById('question-text').innerText = "Identificación exitosa.";
+                    reiniciarInterfaz();
+                } else {
+                    document.getElementById('question-text').innerText = "Identificación fallida. Iniciando calibración...";
+                    document.getElementById('buttons-area').style.display = 'none';
+                    document.getElementById('learn-area').style.display = 'block';
+                }
+            }
+        }
+
+        function learn() {
+            const nuevaRespuesta = document.getElementById('new-answer').value.trim();
+            const nuevaPregunta = document.getElementById('new-question').value.trim();
+
+            if(nuevaRespuesta && nuevaPregunta) {
+                const respuestaAntigua = nodoActual.answer;
+                
+                // Creación del nuevo nodo
+                nodoActual.question = nuevaPregunta;
+                nodoActual.yes = { answer: nuevaRespuesta };
+                nodoActual.no = { answer: respuestaAntigua };
+                delete nodoActual.answer;
+
+                // Guardar en LocalStorage
+                localStorage.setItem('R6ExpertSystem', JSON.stringify(baseConocimiento));
+
+                document.getElementById('question-text').innerText = "Base de datos actualizada correctamente.";
+                document.getElementById('learn-area').style.display = 'none';
+                reiniciarInterfaz();
+            }
+        }
+
+        function reiniciarInterfaz() {
+            document.getElementById('new-answer').value = '';
+            document.getElementById('new-question').value = '';
+            setTimeout(() => {
+                document.getElementById('start-btn').style.display = 'inline-block';
+                document.getElementById('reset-btn').style.display = 'inline-block';
+                document.getElementById('buttons-area').style.display = 'none';
+                document.getElementById('question-text').innerText = "Piensa en un operador de Rainbow Six Siege...";
+            }, 3000);
+        }
+
+        function clearMemory() {
+            if(confirm("¿Seguro que quieres borrar todo lo que el sistema ha aprendido?")) {
+                localStorage.removeItem('R6ExpertSystem');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
