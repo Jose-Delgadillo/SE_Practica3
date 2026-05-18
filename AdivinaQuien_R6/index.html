@@ -252,12 +252,24 @@ let baseConocimiento = {
         }
 
         function hacerPregunta() {
-            if (nodoActual.question) {
-                document.getElementById('question-text').innerText = nodoActual.question;
-            } else {
-                document.getElementById('question-text').innerHTML = `El operador es: <br><strong style="font-size: 1.5em; color: #ffbf00;">${nodoActual.answer}</strong><br><br>¿Es correcto?`;
-            }
+    if (nodoActual.question) {
+        // Es una pregunta, mostramos solo el texto
+        document.getElementById('question-text').innerText = nodoActual.question;
+    } else {
+        // Es un resultado final, armamos el HTML con la imagen
+        let htmlResultado = `El operador es: <br><strong style="font-size: 1.5em; color: #ffbf00;">${nodoActual.answer}</strong><br><br>`;
+        
+        // Si el nodo tiene una imagen guardada, la insertamos
+        if (nodoActual.image) {
+            htmlResultado += `<img src="${nodoActual.image}" style="max-width: 200px; border-radius: 10px; border: 2px solid #005A9C; box-shadow: 0 0 10px rgba(0,90,156,0.5); margin-bottom: 15px;"><br>`;
         }
+        
+        htmlResultado += `¿Es correcto?`;
+        
+        // Inyectamos todo al contenedor
+        document.getElementById('question-text').innerHTML = htmlResultado;
+    }
+}
 
         function answer(reply) {
             if (nodoActual.question) {
