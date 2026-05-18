@@ -275,8 +275,15 @@
             } else {
                 if (reply === 'yes') {
                     document.getElementById('question-text').innerText = "Identificación exitosa.";
+                    document.getElementById('buttons-area').style.display = 'none'; 
                     reiniciarInterfaz();
                 } else {
+                    document.getElementById('question-text').innerText = "Identificación fallida. Iniciando calibración...";
+                    document.getElementById('buttons-area').style.display = 'none';
+                    document.getElementById('learn-area').style.display = 'block';
+                }
+            }
+        }
                     document.getElementById('question-text').innerText = "Identificación fallida. Iniciando calibración...";
                     document.getElementById('buttons-area').style.display = 'none';
                     document.getElementById('learn-area').style.display = 'block';
